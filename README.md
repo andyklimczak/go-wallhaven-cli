@@ -32,7 +32,7 @@ Usage:
 
 Flags:
   -h, --help          help for download
-  -t, --threads int   number of threads
+  -t, --threads int   number of threads (default 4)
 
 Global Flags:
   -a, --apikey string             destination directory
@@ -56,21 +56,25 @@ Due to the structure of the wallhaven API, both the `apikey` and `username` are 
 #### Systemd
 
 Systemd can be used to automatically download wallpapers as you add them to your collection on Wallhaven.
-Create a new systemd service at `/etc/systemd/system/go-wallhaven.service` and paste this template and replace `USER`:
+
+Create a new systemd service at `/etc/systemd/system/go-wallhaven.service` and paste this template and replace `USER` with your user and add parameters to the `go-wallhaven` command:
+
+Be sure to create the directory for `WorkingDirectory` before starting the service.
 
 ```shell
 [Unit]
-Description=Gohaven
+Description=Go-wallhaven
 Documentation=
 After=network.target network-online.target
 Requires=network-online.target
 
 [Service]
-Type=notify
+Type=simple
 User=USER
 Group=USER
-ExecStart=go-wallhaven download -d "~/.my_wallpapers" -a "APIKEY" -c "Desktop" -u "testuser"
-ExecReload=go-wallhaven download -d "~/.my_wallpapers" -a "APIKEY" -c "Desktop" -u "testuser"
+WorkingDirectory=/home/USER/.wallpaper
+ExecStart=go-wallhaven download -d "/home/USER/.my_wallpapers" -a "APIKEY" -c "Desktop" -u "USERNAME" -v
+ExecReload=go-wallhaven download -d "/home/USER/.my_wallpapers" -a "APIKEY" -c "Desktop" -u "USERNAME" -v
 TimeoutStopSec=5s
 LimitNOFILE=1048576
 PrivateTmp=true
@@ -79,6 +83,7 @@ AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
 
 [Install]
 WantedBy=multi-user.target
+
 ```
 
 This will run `go-wallhaven` on boot and download the wallpapers in `testuser`'s `Desktop` collection into your `~/.my_wallpapers` folder.
@@ -89,7 +94,7 @@ sudo systemctl start go-wallhaven
 sudo systemctl enable go-wallhaven
 ```
 
-Then point the program that loads your wallpapers to the folder `~/.wallpapers`:
+Then point the program that loads your wallpapers to the folder `~/.my_wallpapers`:
 ```shell
 feh --randomize --bg-fill ~/.my_wallpapers/*
 ```

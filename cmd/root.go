@@ -4,22 +4,15 @@ Copyright © 2024 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
-	"os"
-	"runtime"
-
 	"github.com/spf13/cobra"
+	"os"
 )
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "go-wallhaven",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "CLI to download wallhaven wallpapers",
+	Long:  `Download wallhaven wallpapers from your collections.`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
@@ -47,8 +40,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&ApiKey, "apikey", "a", "", "destination directory")
 	rootCmd.PersistentFlags().StringVarP(&Username, "username", "u", "", "username of the wallhaven user who owns the collection")
 	rootCmd.PersistentFlags().StringVarP(&CollectionLabel, "collection-label", "c", "", "collection label")
-	threads := runtime.NumCPU()
-	downloadCmd.Flags().IntVarP(&Threads, "threads", "t", threads, "number of threads")
+	downloadCmd.Flags().IntVarP(&Threads, "threads", "t", 4, "number of threads")
 	rootCmd.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "verbose output")
 	rootCmd.MarkPersistentFlagRequired("username")
 	rootCmd.MarkPersistentFlagRequired("collection-label")
