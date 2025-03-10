@@ -45,12 +45,24 @@ Global Flags:
 
 ### Example
 
+Due to the structure of the wallhaven API, both the `apikey` and `username` are required parameters.
+
+#### Download
+
 Download from `testuser`'s collection named `Desktop` into `~/.my_wallpapers`:
 ```shell
 go-wallhaven download -d "~/.my_wallpapers" -a "APIKEY" -c "Desktop" -u "testuser"
 ```
 
-Due to the structure of the wallhaven API, both the `apikey` and `username` are required parameters.
+#### Sync
+
+Sync from `testuser`'s collection named `Desktop` into `~/.my_wallpapers`:
+```shell
+go-wallhaven download -d "~/.my_wallpapers" -a "APIKEY" -c "Desktop" -u "testuser" -S
+```
+
+Sync will remove any wallpapers locally that are not in the collection on Wallhaven.
+This is useful if you have one collection on Wallhaven that you add/remove wallpapers to.
 
 ### Usage as a Service
 
