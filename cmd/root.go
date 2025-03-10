@@ -41,6 +41,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&Username, "username", "u", "", "username of the wallhaven user who owns the collection")
 	rootCmd.PersistentFlags().StringVarP(&CollectionLabel, "collection-label", "c", "", "collection label")
 	downloadCmd.Flags().IntVarP(&Threads, "threads", "t", 4, "number of threads")
+	rootCmd.PersistentFlags().BoolVarP(&Sync, "sync", "S", false, "sync and delete wallpapers no longer in collection")
 	rootCmd.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "verbose output")
 	rootCmd.MarkPersistentFlagRequired("username")
 	rootCmd.MarkPersistentFlagRequired("collection-label")
@@ -52,3 +53,4 @@ var ApiKey string
 var Username string
 var CollectionLabel string
 var Threads int
+var Sync bool

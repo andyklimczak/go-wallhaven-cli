@@ -27,7 +27,7 @@ func (d *Downloader) DownloadFromCollection(collection *wallhaven.Collection, se
 	d.log.Debug("Downloading collection: %s to: %s", collection.Label, destination)
 	reqs := make([]*grab.Request, 0, len(searchData.Data))
 	for _, listing := range searchData.Data {
-		fileName := d.getFileNameFromPath(listing.Path)
+		fileName := GetFileNameFromPath(listing.Path)
 		req, err := grab.NewRequest(fmt.Sprintf("%s/%s", destination, fileName), listing.Path)
 		if err != nil {
 			d.log.Error("Unable to download %s: %w", listing.ID, err)
@@ -47,7 +47,7 @@ func (d *Downloader) DownloadFromCollection(collection *wallhaven.Collection, se
 	return nil
 }
 
-func (d *Downloader) getFileNameFromPath(path string) string {
+func GetFileNameFromPath(path string) string {
 	parts := strings.Split(path, "/")
 	return parts[len(parts)-1]
 }

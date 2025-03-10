@@ -38,6 +38,7 @@ Global Flags:
   -a, --apikey string             destination directory
   -c, --collection-label string   collection label
   -d, --destination string        destination directory (default "~/.wallpapers")
+  -S, --sync                      sync and delete wallpapers no longer in collection
   -u, --username string           username of the wallhaven user who owns the collection
   -v, --verbose                   verbose output
 ```
@@ -73,8 +74,8 @@ Type=simple
 User=USER
 Group=USER
 WorkingDirectory=/home/USER/.wallpaper
-ExecStart=go-wallhaven download -d "/home/USER/.my_wallpapers" -a "APIKEY" -c "Desktop" -u "USERNAME" -v
-ExecReload=go-wallhaven download -d "/home/USER/.my_wallpapers" -a "APIKEY" -c "Desktop" -u "USERNAME" -v
+ExecStart=go-wallhaven download -d "/home/USER/.my_wallpapers" -a "APIKEY" -c "Desktop" -u "USERNAME" -S -v
+ExecReload=go-wallhaven download -d "/home/USER/.my_wallpapers" -a "APIKEY" -c "Desktop" -u "USERNAME" -S -v
 TimeoutStopSec=5s
 LimitNOFILE=1048576
 PrivateTmp=true

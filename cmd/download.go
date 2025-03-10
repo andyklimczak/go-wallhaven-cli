@@ -5,6 +5,7 @@ package cmd
 
 import (
 	"github.com/andyklimczak/go-wallhaven/internal/downloader"
+	"github.com/andyklimczak/go-wallhaven/internal/local"
 	"github.com/andyklimczak/go-wallhaven/internal/logger"
 	"github.com/andyklimczak/go-wallhaven/internal/wallhaven"
 
@@ -35,6 +36,15 @@ var downloadCmd = &cobra.Command{
 		err = dwnldr.DownloadFromCollection(collection, searchResult, Destination)
 		if err != nil {
 			log.Fatal("Unable to download collection: %w", err)
+		}
+
+		if Sync {
+			log.Debug("Syncing folder")
+			clnr := local.NewDefaultCleaner(log)
+			err = clnr.RemoveExtraWallpapers(searchResult, Destination)
+			if err != nil {
+				log.Fatal("Unable to clean up old wallpapers: %w", err)
+			}
 		}
 	},
 }
